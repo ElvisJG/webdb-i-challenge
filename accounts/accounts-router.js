@@ -3,22 +3,26 @@ const db = require('../data/dbConfig.js');
 
 const router = express.Router();
 
-router.get('', (req, res) => {
+router.get('/', async (req, res) => {
+  try {
+    const accounts = await db('accounts');
+    res.status(200).json(accounts);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to get accounts' });
+  }
+});
+
+router.post('', async (req, res) => {
   try {
   } catch (error) {}
 });
 
-router.post('', (req, res) => {
+router.put('', async (req, res) => {
   try {
   } catch (error) {}
 });
 
-router.put('', (req, res) => {
-  try {
-  } catch (error) {}
-});
-
-router.delete('', (req, res) => {
+router.delete('', async (req, res) => {
   try {
   } catch (error) {}
 });
