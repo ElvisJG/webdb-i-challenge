@@ -34,8 +34,18 @@ router.get('/:id', async (req, res) => {
 // Name and budget is required, ex: { name: 'account-01', budget: 4000.00 }
 router.post('/', async (req, res) => {
   try {
+    const { name, budget } = req.body;
     const post = await db('accounts').insert(req.body, 'id');
-    res.status(200).json(post);
+
+    if (typeof budget !== 'number') {
+      res.status(400).json({ message: 'Budget must be a number' });
+    } else if (budget <= 0) {
+      res.status(400).json({ message: 'Budget must be greater than 0' });
+    } else if (!name) {
+      res.status(400).json({ message: 'an account must have a name' });
+    } else {
+      res.status(200).json(post);
+    }
   } catch (error) {
     res.status(500).json({ message: 'Failed post a new account' });
   }
